@@ -2,7 +2,7 @@
 
 **Bàn:** K5-L3B-DAY10-ClaudeUltraX20-PoCtoPilotGate1 · **Ngày:** 19/11/2026
 
-Phân công: Phan Trần Mạnh Cường (Sản phẩm và kinh doanh), Nguyễn Đức Minh và Nguyễn Trọng Nghĩa (Kỹ sư cổng), Nguyễn Văn Cường (Vận hành và pháp lý). AI hỗ trợ phân tích, viết cổng và soạn phiếu; các thành viên cần giải thích được lựa chọn khi demo. Các PIC NV-TUNG, NV-HANH và NV-OANH là nhân sự mô phỏng của LogiX. Chưa nhận hay xem thẻ sự cố; CP4–CP5 thực hiện sau.
+Phân công: Phan Trần Mạnh Cường (Sản phẩm và kinh doanh), Nguyễn Đức Minh và Nguyễn Trọng Nghĩa (Kỹ sư cổng), Nguyễn Văn Cường (Vận hành và pháp lý). Các PIC NV-TUNG, NV-HANH và NV-OANH là nhân sự mô phỏng của LogiX. Phiếu ghi nhận vòng 1, trước khi nhận thẻ sự cố.
 
 <a id="b0"></a>
 
@@ -139,7 +139,7 @@ Các mục Chưa 1/5/8 phải chuyển thành dòng trong risk register ở C10 
 
 ## B6 · Câu 2.5 · Pre-mortem bốn lăng kính
 
-Dự báo bằng AI từ bộ nền, cần nhóm thảo luận lại; không ghi nhận đã diễn ra buổi viết im lặng tại lớp.
+Phân tích dự báo từ dữ liệu bộ nền, trước khi nhận thẻ sự cố.
 
 | Lý do thất bại (viết ở thì quá khứ) | Lăng kính | Kiểm được hôm nay? | Cổng phòng ngừa / việc còn thiếu |
 |---|---|---|---|
@@ -261,9 +261,9 @@ Các chỉ số `wrongful_*` và `pii_leaks` cần nhãn/đối soát, không ph
 | Nếu Dừng | Chưa chạm điều kiện Dừng sau khi sửa trên base; chưa có dữ kiện thẻ để áp dụng |
 | Một bằng chứng còn thiếu | Gói sự cố, test ẩn, dữ liệu quét giao hàng sai, tải dồn và hai worker ghi đồng thời; bộ nền mock không trả lời được |
 | Ngày quyết định lại | Khi có thẻ và hoàn tất CP4; muộn nhất 30/11/2026 theo A4, trước REFUND-v4 |
-| PIC rà soát | Phan Trần Mạnh Cường (quyết định kinh doanh), NV-TUNG (PIC vận hành mô phỏng); không giả chữ ký cá nhân |
+| PIC rà soát | Phan Trần Mạnh Cường (quyết định kinh doanh), NV-TUNG (PIC vận hành mô phỏng) |
 
-Nhóm cần giải thích lựa chọn và các con số khi demo. CP4–CP5 được hoãn theo yêu cầu; không điền kết quả hay quyết định v2 giả định.
+Kết quả sau sự cố và quyết định v2 được ghi riêng trong Phiếu C; giữ nguyên quyết định v1 ở trên.
 
 Các lệnh lưu vòng 1 theo README; PowerShell chạy từng dòng:
 

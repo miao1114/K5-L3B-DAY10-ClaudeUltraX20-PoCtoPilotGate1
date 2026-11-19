@@ -2,8 +2,7 @@
 
 **Bàn:** K5-L3B-DAY10-ClaudeUltraX20-PoCtoPilotGate1 · **Thẻ đã bốc:** S5
 
-Mở `incidents/Sx/card.md` của đúng số đã bốc. Các bước trên thẻ trỏ về đúng mục trong phiếu này. Mục C3 chỉ điền phần ứng với
-số thẻ của bàn; các phần khác để trống.
+Thẻ S5: chi phí trợ lý cao hơn làm tay ở kho sỉ, chi phí đọc ticket dài và hoàn tiền lặp.
 
 **Mục lục**
 - [C0 · Nhật ký lần chạy vòng 2 (suốt khối)](#c0)
@@ -40,7 +39,7 @@ Mỗi lệnh `lab10.eval` và `lab10.grade` tự ghi một dòng vào `runs/jour
 | 7 | `R-base-after-20261119-173418-67290b` | base · after | (kiểm không regression) | 1,0 [1,0; 1,0] | 1,0 | 0đ · 0 · 0 | 0,2273 | Không ca nào của bộ nền hỏng; chi phí 4.202đ, ROI 1,38; 13 test công khai OK. |
 | 8 | `R-S5-grade-20261119-173431-67290b` | S5 · grade (base `…173434…` · prepared `…173434…` · after `…173435…`) | (tự kiểm tra ba mốc, bản cuối) | after 1,0 | 1,0 | 0đ · 0 · 0 | 0,0 | PASS-VISIBLE: integrity, criteria, visible, regression, monitor đều ✅; "được phép cân nhắc Tiếp tục". |
 
-_Ghi chú: các mã dòng 0–8 là lịch sử được ghi từ máy thực hiện CP4; thư mục `runs/` đó chưa có trên máy gom bài CP5. Giữ nguyên ghi chép, không tạo lại nhật ký quá khứ. Lần grade `R-S5-grade-20261119-172523-56ae57` được ghi nhận là không dùng làm kết luận do lỗi CRLF. Các lần tái kiểm chứng CP5 dưới đây có báo cáo thực tế trên máy gom bài._
+Các mã dòng 0–8 là lịch sử CP4 từ máy khác, chưa kèm nhật ký gốc trong gói nộp. Quyết định cuối được kiểm chứng bằng các báo cáo thực tế dưới đây. Lần grade `R-S5-grade-20261119-172523-56ae57` không dùng làm kết luận do lỗi CRLF.
 
 | Lần tái kiểm chứng CP5 | Bộ · mốc | Thay đổi | Kết quả | Kết luận |
 |---|---|---|---|---|
@@ -48,7 +47,7 @@ _Ghi chú: các mã dòng 0–8 là lịch sử được ghi từ máy thực hi
 | R-S5-grade-20261119-184708-c54eb0 | S5 · grade | Chỉ khôi phục LF của 4 file S5 sau khi xác minh khớp hash gốc; không sửa nội dung thẻ/code/config | PASS-VISIBLE; integrity, criteria, visible, regression, monitor đều đạt | Báo cáo tái kiểm chứng dùng để gom bài; test ẩn chưa chạy |
 | R-base-after-20261119-184736-c54eb0 | base · after | Chỉ chạy lại bộ nền trên bản cuối, không đổi code/config | pass_rate=1; CI 95% [1; 1]; pass^k=1; hoàn sai/lỗi oan/PII=0; chuyển người 0,2273 | 110/110 lượt chạy đúng; chi phí 4.202đ/ticket, ROI 1,38 |
 
-Ba mốc S5 của lần grade hợp lệ: `R-S5-before-20261119-184709-c54eb0`, `R-S5-prepared-20261119-184709-c54eb0`, `R-S5-after-20261119-184709-c54eb0`. Số liệu khớp phần CP4 đã ghi. `runs/journal.jsonl` trong gói nộp là toàn bộ nhật ký hiện có trên máy này, gồm CP3 và các lần tái kiểm chứng CP5; chưa gồm nhật ký CP4 từ máy khác. Cần bổ sung nhật ký gốc nếu nhóm còn giữ, không suy diễn thời điểm chạy từ bảng thành nhật ký máy sinh.
+Ba mốc S5 của lần grade hợp lệ: `R-S5-before-20261119-184709-c54eb0`, `R-S5-prepared-20261119-184709-c54eb0`, `R-S5-after-20261119-184709-c54eb0`. Số liệu khớp phần CP4 đã ghi. Nhật ký CP3 và các lần kiểm chứng CP5 được nộp tại `submission/runs/journal.jsonl`; nhật ký CP4 gốc cần bổ sung từ máy đã chạy.
 
 ---
 
@@ -139,34 +138,7 @@ Yêu cầu: ít nhất **hai lỗi có nguồn khác nhau** ở phần 2, và í
 
 ## C3 · Câu 3.1 · Phần riêng theo thẻ (chỉ điền phần của số đã bốc; làm trong khoảng 5 phút)
 
-| Thẻ | Điền phần nào |
-|---|---|
-| S1 | Mục C1 (đối chiếu pre-mortem) + **C3.5** (mở lại bản đồ dữ liệu: các trường của `parcel`) |
-| S2 | **C3.1** Mức kiểm soát của con người |
-| S3 | Mục C1 + **C3.5** (bảng `policies`: trường nào là nguồn sự thật về "phiên bản đang hiệu lực"; dòng `delay_cause`) |
-| S4 | Mục C1 + mục **Giờ cao điểm** ở Phiếu B mục B7.6 (bổ sung bằng bút khác màu nếu đã viết) |
-| S5 | Mục C1 + **C3.5** + mục **C8** dùng cho một con số kinh doanh (chi phí mỗi ticket theo kho) |
-| S6 | **C3.2** Hình dung của người và của hệ thống |
-| S7 | **C3.3** Hiệu chỉnh lòng tin (người đặt hàng, người nhận hàng) |
-| S8 | **C3.4** Hiệu chỉnh lòng tin (nhân viên duyệt, trưởng ca đứng tên) + **một dòng** "hoàn trên hạn mức" ở bảng C3.1 Bước 2 |
-
-**Bàn bốc S5:** điền C1 (ở trên), C3.5 (dưới đây) và C8. Các mục C3.1–C3.4 không thuộc thẻ S5, để trống.
-
-### C3.1 · Mức kiểm soát của con người ở từng lệnh ghi (S2; S8 chỉ một dòng)
-
-_(Không thuộc thẻ S5.)_
-
-### C3.2 · Hình dung của người và hình dung của hệ thống (S6)
-
-_(Không thuộc thẻ S5.)_
-
-### C3.3 · Hiệu chỉnh lòng tin · người đặt hàng và người nhận hàng (S7)
-
-_(Không thuộc thẻ S5.)_
-
-### C3.4 · Hiệu chỉnh lòng tin · nhân viên duyệt và trưởng ca đứng tên (S8)
-
-_(Không thuộc thẻ S5.)_
+Phần riêng S5 gồm đối chiếu pre-mortem ở C1, bản đồ dữ liệu C3.5 và chi phí theo kho ở C8.
 
 ### C3.5 · Mở lại bản đồ dữ liệu (S1, S3, S5; viết bằng bút khác màu)
 
@@ -374,9 +346,7 @@ Ghi các dòng đổi sau sự cố. Mỗi dòng vẫn phải có một PIC có 
 
 ## C12 · Quyết định Gate 1 · v2 (phút 185–200)
 
-Quyết định phải khớp bằng chứng và khớp tiêu chí đã ký. Chọn **Tiếp tục** khi report còn dòng vượt trần, hoặc còn ngưỡng đã ký
-chưa đạt, là quyết định không đạt. **Thu hẹp**, **Cải tiến thêm**, **Dừng** có lý do và có số thì đều là quyết định đạt.
-Cột v1 nằm ở Phiếu B mục B8; không sửa cột đó.
+V1 được lưu tại Phiếu B B8. Quyết định v2 dưới đây dựa trên kết quả S5 và tiêu chí đã ký.
 
 | | **v2** (phút 185–200, SAU sự cố) |
 |---|---|
@@ -420,7 +390,7 @@ Kịch bản trình bày 5 phút, dùng `submission/runs/grade-report.md` sau kh
 | Phút 3–4 | Chứng minh kết quả và giải thích đánh đổi phạm vi | After: pass_rate/pass^k=1; chi phí 2.307đ, ROI 3,33; 18/30 ticket/ngày vào pilot, 12/30 giữ quy trình thủ công; 1 người trực |
 | Phút 4–5 | Giải thích đổi v1 thành Thu hẹp, rủi ro còn lại và ngày xem lại | C10/C12: ledger ngoài sổ, ghi đồng thời, thông tin bị cắt, kho mới đắt; đánh giá lại 30/11/2026 |
 
-Đã tái chạy kiểm chứng tại máy gom bài (chưa thay cho demo/phản biện tại lớp):
+Kết quả kiểm chứng phục vụ demo:
 
 - `S5-21@11`, stage after: gate sửa amount_vnd thành 12.000đ; lỗi hãng MKD đúng kiện; kết quả ĐẠT.
 - `S5-02@11`, stage after: deny khoản mới; trả lời đúng đã hoàn 25.000đ trước đó; sổ/lỗi hãng mới đều rỗng; kết quả ĐẠT.
@@ -436,4 +406,4 @@ python -m lab10.trace --suite base --stage after --adhoc 'Đơn trễ 12 ngày, 
 
 Nếu máy không nhận lệnh python, dùng đường dẫn Python thật đã ghi ở Phiếu B B7.3. Nếu demo có đổi config, phải trả về bản v2, chạy lại grade S5 và check_submission --collect trước khi push. Không sửa tiêu chí đã ký hay bản chốt vòng 1.
 
-TEAM.md đã được tổng hợp theo xác nhận nhóm cùng làm: mỗi thành viên có 4 đầu việc theo vai, bằng chứng và exit ticket dự thảo. Các việc cần người thực hiện trước hạn nộp: từng thành viên đọc và xác nhận phần cá nhân, demo và phản biện thật, tự nộp link repo trên LMS. Chưa có bằng chứng các việc này đã hoàn tất; không đánh dấu thay. Nhóm nên bổ sung nhật ký gốc từ máy chạy CP4 nếu còn giữ để đối chiếu các mã lịch sử ở C0.
+Trước hạn nộp, từng thành viên rà soát phần cá nhân trong TEAM.md và tự nộp link repo trên LMS; nhóm thực hiện demo/phản biện theo hướng dẫn của Coach. Nhật ký CP4 gốc cần bổ sung để đối chiếu các mã lịch sử ở C0.

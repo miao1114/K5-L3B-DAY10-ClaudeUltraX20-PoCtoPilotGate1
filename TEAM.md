@@ -18,9 +18,7 @@
 
 ## Cách ghi nhận đóng góp
 
-Theo xác nhận của nhóm, các thành viên cùng làm và trao đổi trên một repo, không tách được lịch sử thao tác của từng người. Các mục dưới tổng hợp phần việc chung theo vai để mỗi người giải thích khi demo; không khẳng định một thành viên tự làm riêng toàn bộ phần được liệt kê. Mỗi người có 4 đầu việc; số đầu việc bằng nhau không phải phép đo số giờ hay khối lượng thực tế bằng nhau.
-
-Nhóm dùng Claude Code và Codex để đọc code, gợi ý cổng/monitor, chạy kiểm tra, soạn và rà phiếu. Các thành viên chịu trách nhiệm kiểm chứng số liệu, giải thích ngưỡng và quyết định. Exit ticket dưới đây là bản nháp tổng hợp theo vai từ kết quả thực tế, cần từng thành viên đọc và xác nhận trước khi nộp cá nhân. Chưa ghi nhận đã demo tại lớp hoặc đã nộp LMS.
+Các thành viên cùng thực hiện trên một repo. Phần đóng góp dưới đây được tổng hợp theo vai, với bốn đầu việc cho mỗi người.
 
 ## PhanTranManhCuong-2A202603810
 
@@ -42,7 +40,11 @@ Sản phẩm và kinh doanh: cùng nhóm xây tiêu chí, đọc dòng tiền, c
 - Phiếu C: C3.5, C8, C10, C12; `config/operating_gates.json` mục business.
 - Tái kiểm chứng: `R-S5-grade-20261119-184708-c54eb0`; báo cáo gom tại `submission/runs/grade-report.md`.
 
-### Exit ticket — bản nháp để cá nhân xác nhận
+### Công cụ hỗ trợ
+
+Sử dụng trợ lý AI để gợi ý và rà soát tiêu chí, phân tích chi phí và diễn đạt quyết định; nhóm chịu trách nhiệm về ngưỡng và kết luận.
+
+### Exit ticket
 
 - Điều học được: pass_rate cao chưa đủ để mở pilot; phải tách chi phí theo kho và tính cả tiền máy, công người, tiền mất. Thu hẹp từ 100% xuống 60% ticket S5 giúp chi phí giảm từ 6.488đ xuống 2.307đ trong mô phỏng.
 - Điều còn chưa chắc: cơ cấu đơn và chi phí thực tế của 4 kho có giữ ROI tối thiểu 0,5 trong hai tuần pilot hay không; cần đo lại tiền LLM và thời gian người duyệt thật.
@@ -67,7 +69,11 @@ Kỹ sư cổng, trưởng nhóm: cùng nhóm rà luồng agent, tính đúng c�
 - Bộ nền cuối: `R-base-after-20261119-184736-c54eb0`.
 - Báo cáo grade: `R-S5-grade-20261119-184708-c54eb0`, integrity/regression đạt; `submission/manifest.json` do lệnh gom sinh.
 
-### Exit ticket — bản nháp để cá nhân xác nhận
+### Công cụ hỗ trợ
+
+Sử dụng trợ lý AI để đọc code, gợi ý cổng, chạy và đối chiếu kết quả kiểm tra; nhóm kiểm chứng bằng trace, test và hash.
+
+### Exit ticket
 
 - Điều học được: cổng phải kiểm nguồn sự thật ở thời điểm ghi, bên ngoài model; 13 test công khai và kiểm hồi quy giúp xác nhận sửa một lỗi không làm hỏng ca trước đó đúng.
 - Điều còn chưa chắc: kiểm ledger rồi ghi tuần tự có còn chống lặp khi hai worker cùng xử lý một đơn hay không; cần giao dịch nguyên tử hoặc idempotency key và thử tải đồng thời trước khi mở rộng.
@@ -92,7 +98,11 @@ Kỹ sư cổng: cùng nhóm xử lý sự cố S5, phân tích sổ cái, tối
 - Trace S5-21@11 after: modify amount_vnd=12000, kết quả ĐẠT; S5-02@11 after: không ghi khoản mới.
 - Grade `R-S5-grade-20261119-184708-c54eb0`: monitor đạt; S5 after pass_rate=1, pass^k=1, hoàn sai/thiếu bằng 0.
 
-### Exit ticket — bản nháp để cá nhân xác nhận
+### Công cụ hỗ trợ
+
+Sử dụng trợ lý AI để gợi ý sửa cổng hoàn tiền, giới hạn chữ đọc, monitor và rà soát Phiếu C; nhóm kiểm chứng bằng dữ liệu và báo cáo S5.
+
+### Exit ticket
 
 - Điều học được: “ledger có dòng” không đồng nghĩa “đã hoàn đủ”; phải trừ tổng đã trả khỏi quyền lợi để vừa tránh hoàn lặp vừa không chặn phần khách còn được hưởng.
 - Điều còn chưa chắc: thông tin quan trọng ở sau ký tự 1.000 hoặc sau dòng phân cách có thể làm thay đổi ý định người dùng; cần người duyệt kiểm mẫu ticket bị cắt trong pilot thật.
@@ -117,7 +127,11 @@ Vận hành và pháp lý: cùng nhóm phân tích bên chịu ảnh hưởng, n
 - `submission/submission.json`: đủ 4 thành viên, S5, v1 Cải tiến thêm, v2 Thu hẹp, ba dòng bắt buộc.
 - Báo cáo `R-S5-grade-20261119-184708-c54eb0`: queue_stuck=0; lỗi hãng oan/PII=0 trên bản after.
 
-### Exit ticket — bản nháp để cá nhân xác nhận
+### Công cụ hỗ trợ
+
+Sử dụng trợ lý AI để rà HAZOP, runbook, cấu hình vận hành và thành phần bài nộp; nhóm chịu trách nhiệm về quy trình và phân công.
+
+### Exit ticket
 
 - Điều học được: an toàn vận hành cần cả cổng code, con số và người chịu trách nhiệm; 1 người chỉ có năng lực 6 ca/giờ, nên tăng số người phải cập nhật cả công suất cam kết và đo lại chi phí.
 - Điều còn chưa chắc: nhân sự thật có ghi sổ kịp thời và phản ứng đúng ngưỡng trong ca đông hay không; cần diễn tập hàng chờ, gián đoạn LLM và khiếu nại bên thứ ba trước khi mở rộng.

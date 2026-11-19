@@ -1,12 +1,17 @@
 {
-  "team": "",
-  "members": [],
-  "incident": "",
-  "decision_v1": "",
-  "decision_v2": "",
+  "team": "K5-L3B-DAY10-ClaudeUltraX20-PoCtoPilotGate1",
+  "members": [
+    "PhanTranManhCuong-2A202603810",
+    "NguyenDucMinh-2A202603765",
+    "NguyenTrongNghia-2A202603835",
+    "NguyenVanCuong-2A202603750"
+  ],
+  "incident": "S5",
+  "decision_v1": "Cải tiến thêm",
+  "decision_v2": "Thu hẹp",
   "three_lines": {
-    "environment_assumption": "",
-    "reduce_or_prevent": "",
-    "measure_in_pilot": ""
+    "environment_assumption": "Mọi khoản hoàn cho một đơn, kể cả CSKH hoàn tay, đều được ghi ngay vào cùng sổ cái LogiX trước khi trợ lý xử lý ticket tiếp theo của đơn đó; ngoài thực tế CSKH có thể ghi muộn, hoàn qua kênh khác hoặc hoàn một phần mà không ghi.",
+    "reduce_or_prevent": "Cổng NGĂN hoàn lặp và trả thiếu với mọi khoản đã có trong sổ (vì nó trừ sổ cái ngay trước mỗi lệnh ghi, không qua model) và NGĂN kho sỉ tốn tiền máy (vì ticket kho sỉ không vào trợ lý), nhưng chỉ GIẢM được tác hại với khoản hoàn ngoài sổ và với kho hay loại đơn mới đắt hơn làm tay, vì những trường hợp đó chỉ được monitor chi phí theo kho phát hiện sau khi đã tốn tiền.",
+    "measure_in_pilot": "Chi phí thật mỗi ticket theo từng kho trong 2 tuần (tiền LLM thật theo token, công duyệt thật theo phút của chị Hạnh), số đơn có từ hai dòng hoàn trong đối soát sổ cái hằng tuần, và tỉ lệ ticket bị cắt chữ dán kèm mà người duyệt thấy thiếu thông tin."
   }
 }

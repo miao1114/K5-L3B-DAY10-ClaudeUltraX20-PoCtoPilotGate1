@@ -33,17 +33,53 @@ from . import helpers as H  # noqa: F401
 from .tools import Verdict
 
 
+READ_MAX_CHARS = 1000   # V2 (S5): ~400đ tiền đọc; đủ cho yêu cầu của khách, phần dán kèm dài không đổi quyết định
+
+
+def _core_request(text):
+    """V2 (S5): giữ phần khách tự viết, bỏ phần dán kèm (sau dòng phân cách ---) và cắt độ dài tối đa.
+
+    Quyết định tiền dựa trên tracking + chính sách, không dựa trên bảng kê khách dán, nên model không cần đọc phần đó.
+    Bản gốc vẫn nằm nguyên trong ticket cho người duyệt xem.
+    """
+    kept = []
+    for line in (text or "").splitlines():
+        if len(line.strip()) >= 3 and set(line.strip()) <= {"-", "—", "=", "_"}:
+            break
+        if line.strip().startswith("---"):
+            break
+        kept.append(line)
+    core = "\n".join(kept).strip() or (text or "")
+    return core[:READ_MAX_CHARS]
+
+
 def pre_guard(ctx):
     # G1: the effective date is authoritative; index_active is only an index.
     policy = H.effective_policy(ctx.tools.lookup_policies(), ctx.as_of)
     if policy is None:
         return Verdict.escalate("không có chính sách còn hiệu lực, cần trưởng ca duyệt")
+    # V2 (S5): tiền LLM tăng theo độ dài chữ phải đọc; cắt phần dán kèm trước khi model đọc.
+    text = ctx.ticket.get("text") or ""
+    core = _core_request(text)
+    if core != text:
+        ctx.log("guard_trim_text", chars_before=len(text), chars_after=len(core))
+        return Verdict.rewrite("chỉ đọc phần yêu cầu của khách, bỏ phần dán kèm dài", core,
+                               policy_id=policy["policy_id"])
     return Verdict.allow(policy_id=policy["policy_id"])
 
 
 def write_gate(ctx, action):
     tool = action.get("tool")
     if tool == "send_reply":
+        # V2 (S5): không nói "chưa hoàn khoản nào" khi sổ cái đã có khoản hoàn trước cho đơn (ticket lặp, CSKH hoàn tay).
+        order_id = ctx.ticket.get("order_id")
+        prior = [r for r in ctx.tools.ledger_rows(order_id=order_id)
+                 if r.get("ticket_id") != ctx.ticket.get("ticket_id")] if order_id else []
+        if prior and not action.get("amount_vnd"):
+            paid = sum(r.get("amount_vnd", 0) for r in prior)
+            text = (f"Đơn {order_id} đã được LogiX hoàn {paid:,}đ trước đó; "
+                    f"yêu cầu lần này không phát sinh khoản hoàn mới.").replace(",", ".")
+            return Verdict.modify("trả lời khớp sổ cái: đơn đã được hoàn trước đó", text=text)
         return Verdict.allow()
 
     order = ctx.tools.lookup_order(ctx.ticket.get("order_id"))
@@ -60,14 +96,20 @@ def write_gate(ctx, action):
 
     # G1: money, payer, idempotency and approval are checked outside the model.
     if tool == "issue_refund":
+        # V2 (S5): the ledger is shared with manual CSKH refunds. Pay only what is still owed for the order:
+        # entitlement minus everything already in the ledger (auto or manual), never a second full payment.
         rows = ctx.tools.ledger_rows(order_id=order["order_id"])
-        if rows or order.get("refund_status") == "REFUNDED":
-            return Verdict.deny("sổ cái đã có khoản hoàn cho đơn; không ghi lần hai")
+        already = sum(r.get("amount_vnd", 0) for r in rows)
+        if not rows and order.get("refund_status") == "REFUNDED":
+            return Verdict.deny("đơn đã được đánh dấu hoàn đủ; không ghi lần hai")
         if action.get("payer") != "LOGIX" or action.get("basis") != "policy":
             return Verdict.escalate("nguồn chi hoặc căn cứ ngoài chính sách, cần người duyệt")
-        amount = H.entitlement_vnd(policy, order, delay, parcel.get("delay_cause"))
-        if amount <= 0:
+        entitled = H.entitlement_vnd(policy, order, delay, parcel.get("delay_cause"))
+        if entitled <= 0:
             return Verdict.deny("tracking và chính sách hiện hành không cho phép hoàn")
+        amount = entitled - already
+        if amount <= 0:
+            return Verdict.deny("sổ cái đã có đủ khoản hoàn cho đơn; không ghi lần hai")
         if parcel.get("delay_cause") is None:
             return Verdict.escalate("thiếu nguyên nhân trễ trong tracking")
         approval_id = action.get("approval_id")

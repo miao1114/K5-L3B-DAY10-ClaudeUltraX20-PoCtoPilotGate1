@@ -11,7 +11,7 @@
   "decision_v2": "Thu hẹp",
   "three_lines": {
     "environment_assumption": "Mọi khoản hoàn cho một đơn, kể cả CSKH hoàn tay, đều được ghi ngay vào cùng sổ cái LogiX trước khi trợ lý xử lý ticket tiếp theo của đơn đó; ngoài thực tế CSKH có thể ghi muộn, hoàn qua kênh khác hoặc hoàn một phần mà không ghi.",
-    "reduce_or_prevent": "Cổng NGĂN hoàn lặp và trả thiếu với mọi khoản đã có trong sổ (vì nó trừ sổ cái ngay trước mỗi lệnh ghi, không qua model) và NGĂN kho sỉ tốn tiền máy (vì ticket kho sỉ không vào trợ lý), nhưng chỉ GIẢM được tác hại với khoản hoàn ngoài sổ và với kho hay loại đơn mới đắt hơn làm tay, vì những trường hợp đó chỉ được monitor chi phí theo kho phát hiện sau khi đã tốn tiền.",
+    "reduce_or_prevent": "Trong mô phỏng xử lý tuần tự, cổng NGĂN hoàn lặp và trả thiếu khi mọi khoản trước đã ghi đúng vào sổ, vì nó trừ tổng đã hoàn ngay trước lệnh ghi; phạm vi pilot NGĂN tiền máy ở HCM-B2B do ticket kho này đi thẳng sang làm tay. Ngoài thực tế, thiết kế chỉ GIẢM rủi ro cho tới khi kiểm chứng ghi sổ kịp thời và giao dịch nguyên tử giữa nhiều worker; monitor chi phí theo kho chỉ phát hiện sau khi đã tốn tiền.",
     "measure_in_pilot": "Chi phí thật mỗi ticket theo từng kho trong 2 tuần (tiền LLM thật theo token, công duyệt thật theo phút của chị Hạnh), số đơn có từ hai dòng hoàn trong đối soát sổ cái hằng tuần, và tỉ lệ ticket bị cắt chữ dán kèm mà người duyệt thấy thiếu thông tin."
   }
 }

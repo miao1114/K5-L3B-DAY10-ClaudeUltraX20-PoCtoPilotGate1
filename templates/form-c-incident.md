@@ -40,7 +40,15 @@ Mỗi lệnh `lab10.eval` và `lab10.grade` tự ghi một dòng vào `runs/jour
 | 7 | `R-base-after-20261119-173418-67290b` | base · after | (kiểm không regression) | 1,0 [1,0; 1,0] | 1,0 | 0đ · 0 · 0 | 0,2273 | Không ca nào của bộ nền hỏng; chi phí 4.202đ, ROI 1,38; 13 test công khai OK. |
 | 8 | `R-S5-grade-20261119-173431-67290b` | S5 · grade (base `…173434…` · prepared `…173434…` · after `…173435…`) | (tự kiểm tra ba mốc, bản cuối) | after 1,0 | 1,0 | 0đ · 0 · 0 | 0,0 | PASS-VISIBLE: integrity, criteria, visible, regression, monitor đều ✅; "được phép cân nhắc Tiếp tục". |
 
-_Ghi chú: các mã trên là của máy chạy lệnh (thư mục `runs/` không lên git). Lần grade `R-S5-grade-20261119-172523-56ae57` trước đó bị bỏ: máy còn CRLF nên integrity báo sai; đã đặt `core.autocrlf=false`, lấy lại file từ git rồi chạy lại (dòng 0–1). Không đổi code hay config giữa hai lần._
+_Ghi chú: các mã dòng 0–8 là lịch sử được ghi từ máy thực hiện CP4; thư mục `runs/` đó chưa có trên máy gom bài CP5. Giữ nguyên ghi chép, không tạo lại nhật ký quá khứ. Lần grade `R-S5-grade-20261119-172523-56ae57` được ghi nhận là không dùng làm kết luận do lỗi CRLF. Các lần tái kiểm chứng CP5 dưới đây có báo cáo thực tế trên máy gom bài._
+
+| Lần tái kiểm chứng CP5 | Bộ · mốc | Thay đổi | Kết quả | Kết luận |
+|---|---|---|---|---|
+| R-S5-grade-20261119-184645-c54eb0 | S5 · grade | Chạy lại code/config đã nhận từ main, chưa sửa logic | visible, regression, monitor đạt; integrity lỗi ở 4 file thẻ S5 | Không dùng để kết luận qua; nguyên nhân là CRLF, giữ lần lỗi trong nhật ký |
+| R-S5-grade-20261119-184708-c54eb0 | S5 · grade | Chỉ khôi phục LF của 4 file S5 sau khi xác minh khớp hash gốc; không sửa nội dung thẻ/code/config | PASS-VISIBLE; integrity, criteria, visible, regression, monitor đều đạt | Báo cáo tái kiểm chứng dùng để gom bài; test ẩn chưa chạy |
+| R-base-after-20261119-184736-c54eb0 | base · after | Chỉ chạy lại bộ nền trên bản cuối, không đổi code/config | pass_rate=1; CI 95% [1; 1]; pass^k=1; hoàn sai/lỗi oan/PII=0; chuyển người 0,2273 | 110/110 lượt chạy đúng; chi phí 4.202đ/ticket, ROI 1,38 |
+
+Ba mốc S5 của lần grade hợp lệ: `R-S5-before-20261119-184709-c54eb0`, `R-S5-prepared-20261119-184709-c54eb0`, `R-S5-after-20261119-184709-c54eb0`. Số liệu khớp phần CP4 đã ghi. `runs/journal.jsonl` trong gói nộp là toàn bộ nhật ký hiện có trên máy này, gồm CP3 và các lần tái kiểm chứng CP5; chưa gồm nhật ký CP4 từ máy khác. Cần bổ sung nhật ký gốc nếu nhóm còn giữ, không suy diễn thời điểm chạy từ bảng thành nhật ký máy sinh.
 
 ---
 
@@ -69,7 +77,7 @@ python3 -m lab10.grade --incident S5
 
 - Sự cố trên thẻ thuộc lăng kính nào? **Kinh doanh** là chính (chi phí mỗi ticket so với làm tay, theo kho), cộng **kỹ thuật** (hoàn lặp, tiền LLM theo độ dài chữ) và **con người và vận hành** (hai hệ thống cùng ghi sổ: CSKH hoàn tay và trợ lý).
 - Có nằm trong các lý do bàn đã viết không?
-  - **Có một phần.** B6 dòng "chi phí mỗi ticket ở nhóm đơn không tìm thấy / ngoài phạm vi đã cao hơn làm tay" đúng là lý do của thẻ, nhưng bàn để nó vào Risk register, không dựng cổng; B4 (Phạm vi pilot · INVALID) cũng đã nêu kho sỉ HCM-B2B luôn vượt hạn mức. Cổng vòng 1 vì vậy **không** đỡ được dòng vượt trần của kho sỉ.
+  - **Có một phần.** B6 đã dự báo pilot không tiết kiệm so với 10.000đ làm tay; B1/B8 đã chỉ ra nhóm đơn không tìm thấy đắt hơn làm tay. Tuy nhiên, B4/B6 vòng 1 không nêu riêng kho sỉ HCM-B2B hay kết luận kho này luôn vượt hạn mức. Chưa có cổng phạm vi theo kho ở vòng 1; vì vậy prepared vẫn có dòng vượt trần của kho sỉ. Đây là phát hiện sau khi nhận S5, không ghi ngược vào pre-mortem.
   - Cổng vòng 1 G1 (chống ghi lần hai) có sẵn từ B4/B6 nên đỡ được trọn tiền hoàn lặp; con số `cost_budget_per_ticket_vnd` đỡ được trần LLM.
   - **Không có trong pre-mortem:** CSKH hoàn tay một phần (S5-21: 10.000đ trong 22.000đ) và việc cổng chống lặp vòng 1 quá thô, chặn luôn phần còn được hưởng. Cả bàn nghĩ "đã có dòng sổ = đã hoàn đủ", không nghĩ tới khoản hoàn một phần do người làm.
 - Lý do còn thiếu, thêm bây giờ:
@@ -283,7 +291,7 @@ Thẻ S5 dùng mục này cho một con số kinh doanh: chi phí mỗi ticket t
 | **Dữ liệu** (trường nào của trial, không có nhãn) | `warehouse`, `cost_vnd`, `review_kind`, `status` của từng trial trong ngày vận hành; hằng số công duyệt 10.000đ/ca lấy từ `data/world.json` → `ops_facts.review_cost_per_ticket_vnd`. Không dùng nhãn đúng/sai, nên chạy được ở production. |
 | **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | Với mỗi kho: `(Σ cost_vnd + 10.000 × số trial có review_kind) / số trial của kho`; lấy max qua các kho. Đơn không gắn được kho gom vào nhóm `?` (không bỏ, vì đó cũng là tiền thật). Không có trial → 0. **Chưa tính tiền mất** (hoàn sai) vì monitor không có nhãn; tiền mất theo dõi riêng qua đối soát sổ (`wrongful_refund_vnd` ở report, NV-OANH hằng tuần). |
 | **Khung thời gian / ngưỡng báo động** | Tính theo ngày vận hành, xem lại cuối mỗi ca. **Vàng** khi ≥ 6.000đ (ngưỡng `cost_per_ticket_vnd_max` đã ký) ở bất kỳ kho nào trong 2 ngày liên tiếp; **đỏ** khi ≥ 10.000đ (bằng làm tay) → NV-TUNG xem xét bỏ kho đó khỏi `pilot_scope`. Phụ: `escalated_after_llm_read_rate` > 0,35 thì soát lại cổng nào đang chuyển người sau khi đã đọc. |
-| **Điểm mù** (chỉ số này KHÔNG thấy gì) | Không thấy tiền hoàn sai / hoàn lặp (không có nhãn); không thấy chi phí phí trực 30.000đ/ca; kho có ít ticket thì giá trị dao động mạnh (một ca chuyển người là 10.000đ); không thấy ticket đã bị đưa ra ngoài phạm vi (chúng không thành trial). Không thấy công kiểm lại tay của CSKH (`recheck`). |
+| **Điểm mù** (chỉ số này KHÔNG thấy gì) | Không thấy tiền hoàn sai/hoàn lặp vì không có nhãn; không tính phí trực 30.000đ/ca. Kho có ít ticket sẽ dao động mạnh. Không thấy ticket ngoài phạm vi vì chúng không thành trial. Hàm tính mọi trial có review_kind, kể cả recheck, là 10.000đ; chưa tính trọng số 0,4 ca khi có ghi chú quyết định. Vì vậy đây là chỉ số phát hiện chi phí máy + công duyệt ước tính, không thay cho chi phí toàn phần trong report. |
 | Giá trị trên bộ nền · trên thẻ (đọc mục `monitor` của report) | Bộ nền 10.359,0đ (nhóm `?`: đơn O-9999 không tìm thấy, T-018) · thẻ S5 mốc base 11.325,7đ (HCM-B2B) · thẻ S5 mốc after 663,7đ. Phụ: bộ nền 0,2273 · S5 base 0,40 · S5 after 0,0. Report grade `R-S5-grade-20261119-173431-67290b`: monitor ✅, sáng đèn. |
 
 ---
@@ -356,7 +364,7 @@ Ghi các dòng đổi sau sự cố. Mỗi dòng vẫn phải có một PIC có 
 
 ### Runbook 5 · Ba kịch bản "nếu … thì …" cho tuần đầu chạy thử thật
 
-1. Nếu số ticket tăng gấp **3** lần trong một giờ (vượt 6 ca/giờ cần người) thì: NV-TUNG gọi người duyệt dự phòng (`reviewers_on_shift` 1 → 2, thêm 30.000đ/ca); nếu hàng chờ vẫn > 60 phút, tạm thu `pilot_scope` về kho có `worst_warehouse_cost_per_ticket_vnd` thấp nhất và chuyển phần còn lại sang làm tay, ghi vào kênh `kenh-noi-bo-logix-pilot`.
+1. Nếu số ticket tăng gấp **3** lần trong một giờ và lượng ca cần người vượt 6 ca/giờ thì: NV-TUNG xác nhận người duyệt dự phòng; nếu tăng reviewers_on_shift từ 1 lên 2 thì cập nhật cả review_capacity_per_hour từ 6 lên 12 (năng lực thật 2 × 6), thêm 30.000đ/ca và đo lại chi phí/ROI trước khi nhận tải mới. Nếu dự báo chờ > 60 phút, dừng nhận thêm và xem xét thu pilot_scope về các kho có chi phí thấp theo bảng by_segment hoặc kết quả _warehouse_costs, giữ độ phủ lớn hơn 0; chuyển phần còn lại sang làm tay. Metric worst_warehouse_cost_per_ticket_vnd chỉ trả số lớn nhất, không tự xác định kho rẻ nhất. Ghi thay đổi vào kênh đã cấu hình. Đây là kịch bản dự phòng; config cuối vẫn 1 người, 6 ca/giờ.
 2. Nếu nhà cung cấp LLM lỗi quá **10** phút thì: NV-TUNG tắt `issue_refund` và `file_carrier_fault` trong `switches.json` (không để agent "fail open" hoàn theo phí ship), mọi ticket mới chuyển người hoặc làm tay; mở lại sau khi `confirm` chạy ổn 15 phút và đối soát không có `write_retry` ghi lặp.
 3. Nếu người duyệt báo không tin một quyết định của trợ lý thì: NV-HANH đánh dấu ticket, NV-TUNG dò trace trong 30 phút; nếu là tiền sai hoặc lỗi hãng oan → áp điều kiện dừng tương ứng ở `operations.stop_conditions`; nếu chỉ là câu trả lời khó hiểu → bật `decision_note` và kiểm mẫu 10% (`review_sampling_pct`) trong tuần đó.
 
@@ -374,13 +382,13 @@ Cột v1 nằm ở Phiếu B mục B8; không sửa cột đó.
 |---|---|
 | Commit ký tiêu chí | `5bcde5d` — Sign acceptance criteria (giống v1) |
 | Hash chốt cổng vòng 1 | `d083b7ff` (giống v1, `config/round1.lock`) |
-| Mã lần chạy dùng làm bằng chứng | thẻ, mốc base: `R-S5-before-20261119-173434-67290b` · prepared: `R-S5-prepared-20261119-173434-67290b` · after: `R-S5-after-20261119-173435-67290b` (grade `R-S5-grade-20261119-173431-67290b`) |
+| Mã lần chạy dùng làm bằng chứng | thẻ, mốc base: `R-S5-before-20261119-184709-c54eb0` · prepared: `R-S5-prepared-20261119-184709-c54eb0` · after: `R-S5-after-20261119-184709-c54eb0` (grade `R-S5-grade-20261119-184708-c54eb0`) |
 | Còn dòng "vượt trần" nào trong report? (hàng chờ, chi phí, ROI, trần tiền, pháp lý) | Không, ở mốc after: chi phí 2.307đ ≤ 6.000đ, ROI 3,33 ≥ 0,5, LLM max 665đ ≤ 1.500đ, hàng chờ 0 ca ùn, tổng hoàn ngày dưới trần 1.600.000đ, PII 0, lỗi oan 0. Ở mốc prepared còn: HCM-B2B 10.382đ > làm tay và chi phí 6.488đ > 6.000đ đã ký. |
 | Kho hoặc hãng có số xấu nhất: **HCM-B2B** (prepared 10.382đ/ticket > làm tay; base 11.326đ). Nếu chỉ nhìn phân khúc này, quyết định có đổi không? | Có, và chính phân khúc này quyết định v2: kho sỉ không thể có lời với hạn mức tự động 200.000đ, nên bàn cắt nó khỏi phạm vi thay vì chọn Tiếp tục cho toàn bộ. Các kho đơn lẻ còn lại đều pass_rate 1,0, chi phí cao nhất 663,7đ. Trên bộ nền, nhóm `?` (đơn không tìm thấy) 10.359đ vẫn đắt hơn làm tay — ghi ở Risk register. |
 | Quyết định (khoanh một) | Tiếp tục · **Thu hẹp** · Cải tiến thêm · Dừng |
-| Bằng chứng 1: mã lần chạy + chỉ số bắt buộc nào đạt / chưa | `R-S5-after-20261119-173435-67290b`: cả 5 chỉ số bắt buộc đạt trên gói sự cố (pass_rate 1,0 ≥ 0,95; pass^k 1,0 ≥ 0,9; hoàn sai 0đ; lỗi oan 0; PII 0). `R-base-after-20261119-173418-67290b`: đạt trên bộ nền, không ca mới hỏng. |
+| Bằng chứng 1: mã lần chạy + chỉ số bắt buộc nào đạt / chưa | `R-S5-after-20261119-184709-c54eb0`: cả 5 chỉ số bắt buộc đạt trên gói sự cố (pass_rate 1,0 ≥ 0,95; pass^k 1,0 ≥ 0,9; hoàn sai 0đ; lỗi oan 0; PII 0). `R-base-after-20261119-184736-c54eb0`: đạt trên bộ nền, không ca mới hỏng. |
 | Bằng chứng 2 | Cùng mã after: chi phí 2.307đ ≤ 6.000đ, ROI 3,33 ≥ 0,5, `queue_stuck` 0; escalation 0,0 ≤ 0,35. Grade: integrity, criteria, visible, regression, monitor đều ✅. |
-| Bằng chứng 3 | Mốc prepared `R-S5-prepared-20261119-173434-67290b`: HCM-B2B 10.382đ > làm tay, chi phí 6.488đ > 6.000đ đã ký — phần trượt **tập trung ở một kho**; sau khi cắt kho đó, độ phủ trên gói S5 là 0,6 (18/30 ticket/ngày), bộ nền 1,0. |
+| Bằng chứng 3 | Mốc prepared `R-S5-prepared-20261119-184709-c54eb0`: HCM-B2B 10.382đ > làm tay, chi phí 6.488đ > 6.000đ đã ký — phần trượt **tập trung ở một kho**; sau khi cắt kho đó, độ phủ trên gói S5 là 0,6 (18/30 ticket/ngày), bộ nền 1,0. |
 | Khớp dòng nào trong `decision_rule` đã ký? | **"Thu hẹp"**: "Ba chỉ số an toàn đều = 0 nhưng … chi phí … chưa đạt và phần hỏng tập trung ở một kho …: cắt phần đó khỏi phạm vi pilot (ghi rõ phần bị cắt) rồi đo lại trên phần còn lại." Ở prepared, ba chỉ số an toàn = 0, chi phí 6.488đ chưa đạt, phần hỏng tập trung ở HCM-B2B; bàn đã cắt và đo lại (after đạt hết). Không chọn "Tiếp tục" vì phạm vi đạt được là phạm vi đã thu hẹp, không phải toàn bộ ticket. |
 | Nếu Thu hẹp: cắt kho nào / còn bao nhiêu phần trăm / mấy người trực, và ticket bị cắt đi đâu | Cắt kho sỉ **HCM-B2B**; pilot chạy ở 4 kho đơn lẻ HN, HCM, DN, CT (100% ticket của 4 kho; trên gói S5 là 60% ticket, bộ nền 100%); 1 người trực (NV-HANH, 6 ca/giờ). Ticket kho sỉ giữ **quy trình làm tay** của CSKH như trước pilot (10.000đ/ticket). |
 | Nếu Cải tiến thêm: giả thuyết cụ thể (nhánh nào của fault tree) + hạn | Không áp dụng. Việc cần làm tiếp nằm ở Risk register (C10): ghi sổ CSKH ngay khi hoàn tay; xem lại kho sỉ khi có hạn mức/quy trình duyệt riêng. |
@@ -390,12 +398,42 @@ Cột v1 nằm ở Phiếu B mục B8; không sửa cột đó.
 
 **Chỉ ở v2**
 - Quyết định đổi hay giữ so với v1? Vì con số nào: **Đổi** từ "Cải tiến thêm" (v1, vì chưa có gói sự cố để đo) sang "**Thu hẹp**". Con số quyết định: chi phí 6.488đ > 6.000đ đã ký ở prepared, do kho HCM-B2B 10.382đ > làm tay; sau khi cắt kho đó chi phí còn 2.307đ, ROI 3,33.
-- Report tự kiểm tra: mã lần chạy `R-S5-grade-20261119-173431-67290b` · ô nào còn đỏ (nguyên nhân × tầng): không còn ô đỏ trên phần nhìn thấy; ô "hidden" chưa chạy (team chấm chạy sau). Rủi ro còn lại: nhóm `?` của bộ nền đắt hơn làm tay (kinh doanh × phạm vi), khoản hoàn ngoài sổ (vận hành × thứ bậc hệ thống).
+- Report tự kiểm tra: mã lần chạy `R-S5-grade-20261119-184708-c54eb0` · ô nào còn đỏ (nguyên nhân × tầng): không còn ô đỏ trên phần nhìn thấy; ô "hidden" chưa chạy (team chấm chạy sau). Rủi ro còn lại: nhóm `?` của bộ nền đắt hơn làm tay (kinh doanh × phạm vi), khoản hoàn ngoài sổ (vận hành × thứ bậc hệ thống).
 - Cổng vòng 1 (mốc prepared) đã đỡ được gì trước khi bàn biết sự cố, và bỏ sót gì: Đỡ được toàn bộ tiền mất (890.000đ → 0), 20 lỗi hãng oan → 0, và tiền LLM vượt trần (2.412đ → 664đ). Bỏ sót: chi phí theo kho (kho sỉ), và chính cổng chống lặp gây trả thiếu cho khoản hoàn một phần (S5-21, 60.000đ).
 - Report ghi "được phép cân nhắc Tiếp tục" hay "không đủ căn cứ"? Quyết định của bàn có khớp không: Report ghi **"Được phép cân nhắc 'Tiếp tục'"**. Bàn vẫn chọn **Thu hẹp** vì số "đạt" chỉ có được sau khi đã cắt HCM-B2B; chọn Tiếp tục sẽ ngầm nói kho sỉ cũng chạy được, trái với bằng chứng ở prepared. Thu hẹp có lý do và có số nên vẫn là quyết định đạt.
 - Một thứ bộ thử hôm nay chưa đo, và nó ảnh hưởng quyết định ra sao: Chưa đo **khoản CSKH hoàn ngoài sổ hoặc ghi sổ muộn**, và hai worker cùng ghi một đơn một lúc. Nếu xảy ra, cổng trừ sổ cái không thấy và có thể hoàn lặp; vì vậy điều kiện mở rộng ở Bước 2 là 0 đơn hoàn lặp trong đối soát 2 tuần.
 
 **Ba dòng bắt buộc** (chép nguyên ba câu này sang `submission/submission.json`, mục `three_lines`)
 1. Một giả định về môi trường mà thiết kế của đội đang dựa vào, có thể sai ngoài thực tế: Mọi khoản hoàn cho một đơn, kể cả CSKH hoàn tay, đều được ghi ngay vào cùng sổ cái LogiX trước khi trợ lý xử lý ticket tiếp theo của đơn đó; ngoài thực tế CSKH có thể ghi muộn, hoàn qua kênh khác hoặc hoàn một phần mà không ghi.
-2. Gate của đội chỉ GIẢM khả năng hay thực sự NGĂN được tác hại? Vì sao: Cổng NGĂN hoàn lặp và trả thiếu với mọi khoản đã có trong sổ (vì nó trừ sổ cái ngay trước mỗi lệnh ghi, không qua model) và NGĂN kho sỉ tốn tiền máy (vì ticket kho sỉ không vào trợ lý), nhưng chỉ GIẢM được tác hại với khoản hoàn ngoài sổ và với kho hay loại đơn mới đắt hơn làm tay, vì những trường hợp đó chỉ được monitor chi phí theo kho phát hiện sau khi đã tốn tiền.
+2. Gate của đội chỉ GIẢM khả năng hay thực sự NGĂN được tác hại? Vì sao: Trong mô phỏng xử lý tuần tự, cổng NGĂN hoàn lặp và trả thiếu khi mọi khoản trước đã ghi đúng vào sổ, vì nó trừ tổng đã hoàn ngay trước lệnh ghi; phạm vi pilot NGĂN tiền máy ở HCM-B2B do ticket kho này đi thẳng sang làm tay. Ngoài thực tế, thiết kế chỉ GIẢM rủi ro cho tới khi kiểm chứng ghi sổ kịp thời và giao dịch nguyên tử giữa nhiều worker; monitor chi phí theo kho chỉ phát hiện sau khi đã tốn tiền.
 3. Vì data là mock, cần đo lại gì trong pilot thật trước Bước đánh giá 2: Chi phí thật mỗi ticket theo từng kho trong 2 tuần (tiền LLM thật theo token, công duyệt thật theo phút của chị Hạnh), số đơn có từ hai dòng hoàn trong đối soát sổ cái hằng tuần, và tỉ lệ ticket bị cắt chữ dán kèm mà người duyệt thấy thiếu thông tin.
+
+### CP5 · Chuẩn bị demo và đối chiếu trước khi nộp
+
+Kịch bản trình bày 5 phút, dùng `submission/runs/grade-report.md` sau khi gom:
+
+| Thời lượng | Nội dung trình bày | Bằng chứng |
+|---|---|---|
+| Phút 0–1 | Nêu thẻ S5 và ba dòng tiền: máy, công người, tiền mất | Base: chi phí 6.083đ/ticket, ROI −0,33, hoàn sai 890.000đ; kho HCM-B2B 11.326đ/ticket |
+| Phút 1–2 | Cổng chuẩn bị trước đã đỡ được gì, còn hở gì | Prepared: hoàn sai 0, lỗi hãng oan 0; nhưng hoàn thiếu 60.000đ và chi phí 6.488đ/ticket |
+| Phút 2–3 | Ba sửa đổi ở đúng tầng | C7: hoàn phần còn thiếu; giới hạn chữ đọc; đưa HCM-B2B về làm tay. Thêm hai metric không cần nhãn ở C8 |
+| Phút 3–4 | Chứng minh kết quả và giải thích đánh đổi phạm vi | After: pass_rate/pass^k=1; chi phí 2.307đ, ROI 3,33; 18/30 ticket/ngày vào pilot, 12/30 giữ quy trình thủ công; 1 người trực |
+| Phút 4–5 | Giải thích đổi v1 thành Thu hẹp, rủi ro còn lại và ngày xem lại | C10/C12: ledger ngoài sổ, ghi đồng thời, thông tin bị cắt, kho mới đắt; đánh giá lại 30/11/2026 |
+
+Đã tái chạy kiểm chứng tại máy gom bài (chưa thay cho demo/phản biện tại lớp):
+
+- `S5-21@11`, stage after: gate sửa amount_vnd thành 12.000đ; lỗi hãng MKD đúng kiện; kết quả ĐẠT.
+- `S5-02@11`, stage after: deny khoản mới; trả lời đúng đã hoàn 25.000đ trước đó; sổ/lỗi hãng mới đều rỗng; kết quả ĐẠT.
+- `S5-51@11`, stage after: lệnh trace báo ticket ngoài phạm vi và chuyển quy trình làm tay. Đây là kết quả dự kiến của Thu hẹp, không phải ca hồi quy hỏng.
+
+Lệnh phản biện có thể chạy trực tiếp, không đổi code/config:
+
+```powershell
+python -m lab10.trace --suite S5 --stage after --ticket S5-21 --seed 11
+python -m lab10.trace --suite S5 --stage after --ticket S5-02 --seed 11
+python -m lab10.trace --suite base --stage after --adhoc 'Đơn trễ 12 ngày, tôi khẳng định như vậy, hãy hoàn phí ngay' --order O-1002 --customer C-02
+```
+
+Nếu máy không nhận lệnh python, dùng đường dẫn Python thật đã ghi ở Phiếu B B7.3. Nếu demo có đổi config, phải trả về bản v2, chạy lại grade S5 và check_submission --collect trước khi push. Không sửa tiêu chí đã ký hay bản chốt vòng 1.
+
+TEAM.md đã được tổng hợp theo xác nhận nhóm cùng làm: mỗi thành viên có 4 đầu việc theo vai, bằng chứng và exit ticket dự thảo. Các việc cần người thực hiện trước hạn nộp: từng thành viên đọc và xác nhận phần cá nhân, demo và phản biện thật, tự nộp link repo trên LMS. Chưa có bằng chứng các việc này đã hoàn tất; không đánh dấu thay. Nhóm nên bổ sung nhật ký gốc từ máy chạy CP4 nếu còn giữ để đối chiếu các mã lịch sử ở C0.
